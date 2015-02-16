@@ -1,0 +1,11 @@
+C:\Users\Jonathan\Desktop\NAIT\C#\SGFViewer\SGFViewer\bin\Debug\SGFViewer.exe.config
+C:\Users\Jonathan\Desktop\NAIT\C#\newviewer\SGFViewer\SGFViewer\bin\Debug\SGFViewer.exe.config
+C:\Users\Jonathan\Desktop\NAIT\C#\newviewer\SGFViewer\SGFViewer\obj\Debug\SGFViewer.csprojResolveAssemblyReference.cache
+C:\Users\Jonathan\Desktop\NAIT\C#\newviewer\SGFViewer\SGFViewer\obj\Debug\SGFViewer.Properties.Resources.resources
+C:\Users\Jonathan\Desktop\NAIT\C#\newviewer\SGFViewer\SGFViewer\obj\Debug\SGFViewer.SGFViewerUI.resources
+C:\Users\Jonathan\Desktop\NAIT\C#\newviewer\SGFViewer\SGFViewer\obj\Debug\SGFViewer.csproj.GenerateResource.Cache
+C:\Users\Jonathan\Desktop\NAIT\C#\newviewer\SGFViewer\SGFViewer\bin\Debug\SGFViewer.exe
+C:\Users\Jonathan\Desktop\NAIT\C#\newviewer\SGFViewer\SGFViewer\bin\Debug\SGFViewer.pdb
+C:\Users\Jonathan\Desktop\NAIT\C#\newviewer\SGFViewer\SGFViewer\bin\Debug\Parser_SGF.dll
+C:\Users\Jonathan\Desktop\NAIT\C#\newviewer\SGFViewer\SGFViewer\obj\Debug\SGFViewer.exe
+C:\Users\Jonathan\Desktop\NAIT\C#\newviewer\SGFViewer\SGFViewer\obj\Debug\SGFViewer.pdb
