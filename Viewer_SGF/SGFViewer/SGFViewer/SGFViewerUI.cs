@@ -14,6 +14,7 @@ using System.Linq;
 using System.Windows.Forms;
 using System.IO;
 using Parser_SGF;
+using Go;
 
 #endregion
 
@@ -29,7 +30,7 @@ namespace SGFViewer
         #region non-static properties
 
         private Graphics stoneOverlay;                  // Used for drawing stones onto panel goBoardUI
-        private Parser_SGF.GoLogic engine = null;       // Engine containing tree and gamestates
+        private Go.GoEngine engine = null;                 // Engine containing tree and gamestates
         private bool loaded = false;
 
         #endregion
@@ -38,7 +39,7 @@ namespace SGFViewer
         public SGFViewerUI()
         {
             InitializeComponent();
-            stoneOverlay = goBoardUI.CreateGraphics();      // Initialize graphics on panel goBoardUI - need to Dispose() on exit!
+            stoneOverlay = goBoardUI.CreateGraphics();  // Initialize graphics on panel goBoardUI - need to Dispose() on exit!
         }
 
         #endregion
@@ -50,16 +51,16 @@ namespace SGFViewer
             if (loaded)
             {
                 Color colour;
-                Parser_SGF.GoLogic.moveState[,] currentState = engine.GameStates.Last();
+                GoStone[,] currentState = engine.CurrentState;
 
-                for (int j = 0; j < Parser_SGF.GoLogic.boardHeight; j++)
-                    for (int i = 0; i < Parser_SGF.GoLogic.boardWidth; i++)
+                for (int j = 0; j < currentState.GetLength(0); ++j)
+                    for (int i = 0; i < currentState.GetLength(1); ++i)
                     {
                         // No stone to draw
-                        if (currentState[i, j] == Parser_SGF.GoLogic.moveState.None)
+                        if (currentState[j, i].Colour == GoColour.None)
                             continue;
 
-                        colour = currentState[i, j] == Parser_SGF.GoLogic.moveState.Black ? Color.Black : Color.White;
+                        colour = currentState[j, i].Colour == GoColour.Black ? Color.Black : Color.White;
 
                         // (3,3) is the topleft of the stone sitting in game[0,0]
                         // 28 is the pixelWidth/Height of the stones based on the current (constant) scale of the game
@@ -100,7 +101,7 @@ namespace SGFViewer
                         MessageBox.Show("File does not exist");
                     else
                     {
-                        engine = new Parser_SGF.GoLogic(sourceFileUI.Text);
+                        engine = new Go.GoEngine(sourceFileUI.Text);
                         loaded = true;
                         UpdateGameProperties();
                         commentsUI.Items.Clear();
@@ -129,20 +130,20 @@ namespace SGFViewer
         // Selecting a higher branch to move to
         private void branchUpUI_Click(object sender, EventArgs e)
         {
-            if (engine.Branch > 1)
+            if (engine.BranchNumber > 1)
             {
-                engine.Branch--;
-                toBranchUI.Text = engine.Branch.ToString();
+                --engine.BranchNumber;
+                toBranchUI.Text = engine.BranchNumber.ToString();
             }   
         }
 
         // Selecting a lower branch to move to
         private void branchDownUI_Click(object sender, EventArgs e)
         {
-            if (engine.Branch < engine.cursor.Children.Count)
+            if (engine.BranchNumber < engine.Cursor.Children.Count)
             {
-                engine.Branch++;
-                toBranchUI.Text = engine.Branch.ToString();
+                ++engine.BranchNumber;
+                toBranchUI.Text = engine.BranchNumber.ToString();
             }
         }
 
@@ -185,7 +186,7 @@ namespace SGFViewer
         {
             if (loaded)
             {
-                while (engine.cursor.Children.Count != 0)
+                while (engine.Cursor.Children.Count != 0)
                     engine.NextMove();
 
                 currentMoveUI.Text = engine.CurrentMove.ToString();
@@ -198,7 +199,7 @@ namespace SGFViewer
         {
             if (loaded)
             {
-                while (engine.cursor.ID != TreeSGF.rootID)
+                while (engine.Cursor.ID != Go.TreeSGF.rootID)
                     engine.PreviousMove();
 
                 currentMoveUI.Text = engine.CurrentMove.ToString();
@@ -233,10 +234,10 @@ namespace SGFViewer
         // Updating commentsUI ListBox based on current cursor
         private void UpdateComments()
         {
-            if (engine.cursor.Comment != "")
+            if (engine.Cursor.Comment != "")
             {
                 commentsUI.Items.Clear();
-                commentsUI.Items.Add(engine.cursor.Comment);
+                commentsUI.Items.Add(engine.Cursor.Comment);
             }
         }
 
@@ -245,8 +246,8 @@ namespace SGFViewer
         {
             if (loaded)
             {
-                toBranchUI.Text = engine.Branch.ToString();
-                branchLabelUI.Text = engine.cursor.ID;
+                toBranchUI.Text = engine.BranchNumber.ToString();
+                branchLabelUI.Text = engine.Cursor.ID;
                 UpdateComments();
                 goBoardUI.Invalidate();
             }

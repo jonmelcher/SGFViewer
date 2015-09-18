@@ -32,6 +32,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Go">
+      <HintPath>.\Go.dll</HintPath>
+    </Reference>
     <Reference Include="Parser_SGF">
       <HintPath>.\Parser_SGF.dll</HintPath>
     </Reference>
